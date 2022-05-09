@@ -11,6 +11,7 @@ import java.sql.*;
  * @author kiptim
  */
 public class NewDbConnection {
+
     enum RoleInput {
         student, teacher, admin
     }
@@ -54,8 +55,9 @@ public class NewDbConnection {
         getConnection(command, commandType.update);
 
     }
+    static Connection con;
 
-    static void getConnection(String query, commandType type) {
+    static Connection getConnection(String query, commandType type) {
 
         try {
             // Step one; Load the driver
@@ -95,6 +97,7 @@ public class NewDbConnection {
 
             System.out.println("Error" + e.getMessage());
         }
+        return con;
     }
 
     // main function

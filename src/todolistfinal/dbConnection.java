@@ -12,39 +12,22 @@ import java.sql.*;
  */
 public class dbConnection {
 
-    static void getConnection() {
+    public Connection con;
 
+    public Connection getConnection() {
+        //Use try {...}catch(Exception e){} to test for any DB connection errors
         try {
-//            Step one; Load the driver
+            //STEP 1: Load the mysql driver
             Class.forName("com.mysql.cj.jdbc.Driver");
-            System.out.println("Driver Loaded Successfully");
-//               step two get the connection
-
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/todolist", "root", "");
-            if (con != null) {
-                System.out.println("Connection Successful");
-//                    step 3 query data from the database
-                Statement command = con.createStatement();
-//                    step 4 output the results
-                ResultSet results = command.executeQuery("select * from users;");
-                while (results.next()) {
-                    System.out.println("username is " + results.getString(1) + " password is " + results.getString(2) + " role is " + results.getString(3));
-                }
-
-            } else {
-                System.out.println("Error connecting to database");
-            }
-            con.close();
+            //STEP 2: Create the connection
+            con = DriverManager.getConnection(
+                    "jdbc:mysql://localhost:3306/TODOLIST", "root", "");
+            return con;
         } catch (ClassNotFoundException | SQLException e) {
-
-            System.out.println("Error" + e.getMessage());
+            System.out.println("Database connection failed. See error below.");
+            System.out.println(e);
+            return null;
         }
-    }
-
-    //main function
-    public static void main(String[] args) {
-
-        getConnection();
     }
 
 }
