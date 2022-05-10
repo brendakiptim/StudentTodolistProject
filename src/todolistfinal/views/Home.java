@@ -4,9 +4,14 @@
  */
 package todolistfinal.views;
 
+import java.awt.Font;
 import todolistfinal.*;
 import java.sql.*;
 import javax.swing.*;
+import java.awt.font.TextAttribute;
+import java.util.Map;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.AbstractTableModel;
 
 /**
  *
@@ -40,6 +45,8 @@ public class Home extends javax.swing.JFrame {
         pendingItemsLabel = new javax.swing.JLabel();
         pendingTaskCheckBox = new javax.swing.JCheckBox();
         addTodoListItem = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tasksTable = new javax.swing.JTable();
         HomebackgroundImage = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -61,7 +68,7 @@ public class Home extends javax.swing.JFrame {
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerLayout.createSequentialGroup()
                 .addGap(418, 418, 418)
-                .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
                 .addGap(429, 429, 429))
         );
         headerLayout.setVerticalGroup(
@@ -91,6 +98,26 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        tasksTable.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
+        tasksTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        tasksTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tasksTable.setEnabled(false);
+        tasksTable.setMinimumSize(new java.awt.Dimension(80, 100));
+        tasksTable.setName("task table"); // NOI18N
+        tasksTable.setRowHeight(80);
+        tasksTable.setRowMargin(0);
+        jScrollPane1.setViewportView(tasksTable);
+
         javax.swing.GroupLayout pendingItemsContainerLayout = new javax.swing.GroupLayout(pendingItemsContainer);
         pendingItemsContainer.setLayout(pendingItemsContainerLayout);
         pendingItemsContainerLayout.setHorizontalGroup(
@@ -101,11 +128,14 @@ public class Home extends javax.swing.JFrame {
                     .addGroup(pendingItemsContainerLayout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(pendingTaskCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 677, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(265, Short.MAX_VALUE))
-                    .addGroup(pendingItemsContainerLayout.createSequentialGroup()
-                        .addComponent(pendingItemsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addTodoListItem)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pendingItemsContainerLayout.createSequentialGroup()
+                        .addGroup(pendingItemsContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pendingItemsContainerLayout.createSequentialGroup()
+                                .addComponent(pendingItemsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(addTodoListItem)))
                         .addGap(26, 26, 26))))
         );
         pendingItemsContainerLayout.setVerticalGroup(
@@ -117,7 +147,9 @@ public class Home extends javax.swing.JFrame {
                     .addComponent(addTodoListItem))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(pendingTaskCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(342, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout tasksContainerLayout = new javax.swing.GroupLayout(tasksContainer);
@@ -177,14 +209,17 @@ public class Home extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
 
+    private void addTodoListItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addTodoListItemMouseClicked
+        // TODO add your handling code here:
+        AddTask addTodoPage = new AddTask();
+        this.dispose();
+        addTodoPage.setVisible(true);
+
+    }//GEN-LAST:event_addTodoListItemMouseClicked
+
     private void pendingTaskCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pendingTaskCheckBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_pendingTaskCheckBoxActionPerformed
-
-    private void addTodoListItemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addTodoListItemMouseClicked
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_addTodoListItemMouseClicked
 
     /**
      * @param args the command line arguments
@@ -227,30 +262,69 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JPanel HomebackgroundImage;
     private javax.swing.JLabel addTodoListItem;
     private javax.swing.JPanel header;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPanel mainContainer;
     private javax.swing.JPanel pendingItemsContainer;
     private javax.swing.JLabel pendingItemsLabel;
     private javax.swing.JCheckBox pendingTaskCheckBox;
     private javax.swing.JPanel tasksContainer;
+    private javax.swing.JTable tasksTable;
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 
+//     static class BooleanTableModel extends AbstractTableModel {
+//        String[] columns = {"TASK", "DESCRIPTION", "DUE DATE", "COMPLETED"};
+//        Object[][] data = {
+//                {"S001", "ALICE", 90.00, Boolean.TRUE},
+//          
+//        };
     public void renderTodolists() {
         Utils allTasks = new Utils();
+        //THE MODEL OF OUR TABLE
+
+        DefaultTableModel model = (DefaultTableModel) tasksTable.getModel();
+        DefaultTableModel customModel = new DefaultTableModel() {
+            public Class<?> getColumnClass(int column) {
+                System.out.println("coum" + column);
+                return Boolean.class;
+            }
+        };
+        model.getColumnClass(0);
+        model.setColumnCount(0);
+        model.setRowCount(0);
+        model.addColumn("Task");
+        model.addColumn("Description");
+
+        model.addColumn("Due Date");
+        model.addColumn("action");
+
+        Map attributes = (new Font("Ubuntu", Font.PLAIN, 12)).getAttributes();
+        //attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
+        attributes.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
+//        tasksTable.setFont(new Font(attributes));
         ResultSet tasks = allTasks.fetchTodos();
+
         try {
             while (tasks.next()) {
 
                 System.out.println("tasks: " + tasks.getString("name"));
                 JCheckBox newCheckBox = new JCheckBox("new one");
-
-                newCheckBox.setText(tasks.getString("name"));
-                newCheckBox.setSelected(false);
-                mainContainer.add(newCheckBox);
+//
+//
+//                newCheckBox.setSelected(false);
+//                mainContainer.add(newCheckBox);
                 newCheckBox.setVisible(true);
+
+                model.addRow(new Object[]{tasks.getString("name"), tasks.getString("description"), tasks.getString("dueDate"), Boolean.FALSE});
             }
         } catch (SQLException e) {
             System.out.println("error getting tasks: " + e.getMessage());
         }
+
+    }
+
+    public void renderTable() {
+
+//        model.addRow(new Object[]{"Start School", "3-01-2022", "this is urgent"});
     }
 }
