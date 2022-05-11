@@ -4,6 +4,7 @@
  */
 package todolistfinal.views;
 
+import java.awt.BorderLayout;
 import todolistfinal.views.Home;
 import todolistfinal.dbConnection;
 import java.awt.Color;
@@ -14,6 +15,7 @@ import javax.swing.*;
 import java.sql.*;
 import java.util.*;
 import todolistfinal.dbConnection;
+import java.awt.Image;
 
 /**
  *
@@ -48,7 +50,7 @@ public class Login extends javax.swing.JFrame {
         usernameInput = new javax.swing.JTextField();
         cancelButton = new javax.swing.JButton();
         loginButton = new javax.swing.JButton();
-        jPanel3 = new javax.swing.JPanel();
+        loginBackgroundImage = new javax.swing.JPanel();
         loginStatus = new javax.swing.JLabel();
         passwordInput = new javax.swing.JPasswordField();
 
@@ -57,7 +59,7 @@ public class Login extends javax.swing.JFrame {
         mainPanel.setBackground(new java.awt.Color(235, 94, 40));
 
         jLabel1.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("STUDENT TODOLIST");
 
@@ -118,20 +120,20 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jPanel3.setBackground(new java.awt.Color(204, 204, 204));
+        loginBackgroundImage.setBackground(new java.awt.Color(204, 204, 204));
+        loginBackgroundImage.setFont(new java.awt.Font("Ubuntu", 1, 48)); // NOI18N
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout loginBackgroundImageLayout = new javax.swing.GroupLayout(loginBackgroundImage);
+        loginBackgroundImage.setLayout(loginBackgroundImageLayout);
+        loginBackgroundImageLayout.setHorizontalGroup(
+            loginBackgroundImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 546, Short.MAX_VALUE)
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        loginBackgroundImageLayout.setVerticalGroup(
+            loginBackgroundImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 536, Short.MAX_VALUE)
         );
 
-        passwordInput.setText("jPasswordField1");
         passwordInput.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 passwordInputActionPerformed(evt);
@@ -149,7 +151,7 @@ public class Login extends javax.swing.JFrame {
                         .addGap(54, 54, 54)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(loginBackgroundImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(63, 63, 63)
@@ -199,10 +201,7 @@ public class Login extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(loginStatus)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 162, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, 0)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(0, 0, 0)))
+                    .addComponent(loginBackgroundImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -270,6 +269,14 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_passwordInputActionPerformed
 
+//    private void setBackgroundImage() {
+//        ImageIcon icon = new ImageIcon("https://images.unsplash.com/photo-1652265540595-20bb27ccba7d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80");
+//        backgroundImageLabel.setIcon(icon);
+//        backgroundImageLabel.setLayout( new BorderLayout() );
+//        loginBackgroundImage.setBackground(Color.red);
+//        
+//    }
+
     /**
      * @param args the command line arguments
      */
@@ -311,8 +318,8 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JButton cancelButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JPanel loginBackgroundImage;
     private javax.swing.JButton loginButton;
     private javax.swing.JLabel loginStatus;
     private javax.swing.JPanel mainPanel;

@@ -21,7 +21,7 @@ public class Utils {
         try {
             Statement stmt = connection.con.createStatement();
             //Execute the statement
-            ResultSet result = stmt.executeQuery("SELECT * FROM Task");
+            ResultSet result = stmt.executeQuery("SELECT * FROM Task ORDER BY isCompleted  ASC");
 
             return result;
         } catch (SQLException e) {
@@ -55,12 +55,51 @@ public class Utils {
 
     }
 
-    static void createRow(String name, NewDbConnection.RoleInput role, String password) {
-        String command = String.format("insert into users(username, role, password) values('%s','%s','%s')", name,
-                password, role);
-        System.out.println(command);
-        getConnection(command, NewDbConnection.commandType.update);
+    //send query to db to fetch all existing tasks
+    public int completeTodos(String idTask, int isCompleted) {
+        dbConnection connection = new dbConnection();
+        connection.getConnection();
+        //Create the statement object for executing queries
+        try {
+            Statement stmt = connection.con.createStatement();
+            //Execute the statement
+            String command = String.format("UPDATE Task SET `isCompleted` = '%s' WHERE `Task`.`idTask` = %s", isCompleted, idTask);
+            System.out.println("command" + command);
+            int resi = stmt.executeUpdate(command);
+            System.out.println("resi" + resi);
 
+            return resi;
+        } catch (SQLException e) {
+            System.out.println("error: " + e.getMessage());
+
+            return 0;
+
+        }
+    }
+
+
+
+
+    //send query to delete todos
+    public int deleteTodos(String idTask) {
+        dbConnection connection = new dbConnection();
+        connection.getConnection();
+        //Create the statement object for executing queries
+        try {
+            Statement stmt = connection.con.createStatement();
+            //Execute the statement
+            String command = String.format("DELETE FROM Task WHERE `Task`.`idTask` = %s", idTask);
+            System.out.println("command" + command);
+            int resi = stmt.executeUpdate(command);
+            System.out.println("resi" + resi);
+
+            return resi;
+        } catch (SQLException e) {
+            System.out.println("error: " + e.getMessage());
+
+            return 0;
+
+        }
     }
 
 }

@@ -1,1 +1,0 @@
-typeSearchIndex = [{"l":"All Classes","url":"allclasses-index.html"},{"p":"todolistfinal","l":"dbConnection"},{"p":"todolistfinal.views","l":"Home"},{"p":"todolistfinal.views","l":"Login"},{"p":"todolistfinal","l":"NewDbConnection"},{"p":"todolistfinal","l":"Utils"}]

@@ -4,14 +4,18 @@
  */
 package todolistfinal.views;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import todolistfinal.*;
 import java.sql.*;
 import javax.swing.*;
 import java.awt.font.TextAttribute;
+import java.lang.reflect.Field;
 import java.util.Map;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -98,6 +102,12 @@ public class Home extends javax.swing.JFrame {
             }
         });
 
+        jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jScrollPane1MousePressed(evt);
+            }
+        });
+
         tasksTable.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         tasksTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -115,7 +125,11 @@ public class Home extends javax.swing.JFrame {
         tasksTable.setMinimumSize(new java.awt.Dimension(80, 100));
         tasksTable.setName("task table"); // NOI18N
         tasksTable.setRowHeight(80);
-        tasksTable.setRowMargin(0);
+        tasksTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tasksTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tasksTable);
 
         javax.swing.GroupLayout pendingItemsContainerLayout = new javax.swing.GroupLayout(pendingItemsContainer);
@@ -203,7 +217,7 @@ public class Home extends javax.swing.JFrame {
         );
 
         getContentPane().add(mainContainer);
-        renderTodolists();
+        renderTodolists(); overides();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -220,6 +234,36 @@ public class Home extends javax.swing.JFrame {
     private void pendingTaskCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pendingTaskCheckBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_pendingTaskCheckBoxActionPerformed
+
+    private void jScrollPane1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScrollPane1MousePressed
+
+    private void tasksTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tasksTableMouseClicked
+        // TODO add your handling code here:
+        JTable source = (JTable) evt.getSource();
+        Utils allTasks = new Utils();
+
+        int row = source.rowAtPoint(evt.getPoint());
+        int column = source.columnAtPoint(evt.getPoint());
+        String s = source.getModel().getValueAt(row, column) + "";
+        if (s.equals("true") || s.equals("false")) {
+            int boolNumber = s.equals("false") ? 1 : 0;
+            String id = source.getModel().getValueAt(row, 3) + "";
+            allTasks.completeTodos(id, boolNumber);
+            renderTodolists();
+
+        } else if (s.equals("X")) {
+            System.out.println("trying to delete");
+            String id = source.getModel().getValueAt(row, 3) + "";
+
+            allTasks.deleteTodos(id);
+            renderTodolists();
+
+        }
+
+
+    }//GEN-LAST:event_tasksTableMouseClicked
 
     /**
      * @param args the command line arguments
@@ -272,50 +316,87 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 
-//     static class BooleanTableModel extends AbstractTableModel {
-//        String[] columns = {"TASK", "DESCRIPTION", "DUE DATE", "COMPLETED"};
-//        Object[][] data = {
-//                {"S001", "ALICE", 90.00, Boolean.TRUE},
-//          
-//        };
+    //fetch the table status
+    public Boolean getStatus(int isComplete) {
+        if (isComplete == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    ;
+    
+
+    public void overides() {
+
+        tasksTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.WHITE);
+
+//                //style
+                Map attributes = (new Font("Ubuntu", Font.BOLD, 18)).getAttributes();
+                attributes.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
+//                int columnVal = 0;
+//                int rowVal = table.getSelectedRow();
+//                String values = table.getModel().getValueAt(row, column).toString();
+                if (value instanceof Boolean) {
+                    if (value.equals(true)) {
+                        c.setFont(new Font(attributes));
+
+                    }
+                }
+                return c;
+
+            }
+
+        });
+
+    }
+
+    ;
+
+    
+
     public void renderTodolists() {
         Utils allTasks = new Utils();
         //THE MODEL OF OUR TABLE
 
         DefaultTableModel model = (DefaultTableModel) tasksTable.getModel();
-        DefaultTableModel customModel = new DefaultTableModel() {
-            public Class<?> getColumnClass(int column) {
-                System.out.println("coum" + column);
-                return Boolean.class;
-            }
-        };
-        model.getColumnClass(0);
-        model.setColumnCount(0);
         model.setRowCount(0);
-        model.addColumn("Task");
-        model.addColumn("Description");
+        model.setColumnCount(0);
+        model.addColumn(
+                "Task");
+        model.addColumn(
+                "Description");
 
-        model.addColumn("Due Date");
-        model.addColumn("action");
+        model.addColumn(
+                "Due Date");
+        model.addColumn(
+                "ID");
 
-        Map attributes = (new Font("Ubuntu", Font.PLAIN, 12)).getAttributes();
-        //attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
-        attributes.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
-//        tasksTable.setFont(new Font(attributes));
+        model.addColumn(
+                "Completed");
+        model.addColumn(
+                "Delete");
+
         ResultSet tasks = allTasks.fetchTodos();
 
         try {
             while (tasks.next()) {
+                System.out.println("j" + tasks.getString("isCompleted") + Boolean.parseBoolean(tasks.getString("isCompleted")));
+                model.addRow(
+                        new Object[]{tasks.getString("name"),
+                            tasks.getString("description"),
+                            tasks.getString("dueDate"),
+                            tasks.getString("idTask"),
+                            getStatus(Integer.parseInt(tasks.getString("isCompleted"))),
+                            "X"
 
-                System.out.println("tasks: " + tasks.getString("name"));
-                JCheckBox newCheckBox = new JCheckBox("new one");
-//
-//
-//                newCheckBox.setSelected(false);
-//                mainContainer.add(newCheckBox);
-                newCheckBox.setVisible(true);
-
-                model.addRow(new Object[]{tasks.getString("name"), tasks.getString("description"), tasks.getString("dueDate"), Boolean.FALSE});
+                        }
+                );
             }
         } catch (SQLException e) {
             System.out.println("error getting tasks: " + e.getMessage());
@@ -325,6 +406,5 @@ public class Home extends javax.swing.JFrame {
 
     public void renderTable() {
 
-//        model.addRow(new Object[]{"Start School", "3-01-2022", "this is urgent"});
     }
 }
