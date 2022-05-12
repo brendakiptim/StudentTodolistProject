@@ -4,6 +4,8 @@
  */
 package todolistfinal.views;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
 import todolistfinal.*;
 import java.sql.*;
@@ -11,7 +13,7 @@ import javax.swing.*;
 import java.awt.font.TextAttribute;
 import java.util.Map;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 /**
  *
@@ -48,6 +50,16 @@ public class Home extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tasksTable = new javax.swing.JTable();
         HomebackgroundImage = new javax.swing.JPanel();
+        homeNav = new javax.swing.JPanel();
+        homeNavLink = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        addTaskNav = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        logoutNav = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("container");
@@ -60,7 +72,7 @@ public class Home extends javax.swing.JFrame {
         title.setFont(new java.awt.Font("Ubuntu", 1, 36)); // NOI18N
         title.setForeground(new java.awt.Color(235, 94, 40));
         title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        title.setText("TODOLIST");
+        title.setText("STUDENT TODOLIST");
 
         javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
         header.setLayout(headerLayout);
@@ -68,7 +80,7 @@ public class Home extends javax.swing.JFrame {
             headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(headerLayout.createSequentialGroup()
                 .addGap(418, 418, 418)
-                .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
+                .addComponent(title, javax.swing.GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
                 .addGap(429, 429, 429))
         );
         headerLayout.setVerticalGroup(
@@ -84,7 +96,7 @@ public class Home extends javax.swing.JFrame {
 
         pendingTaskCheckBox.setFont(new java.awt.Font("Liberation Sans", 2, 18)); // NOI18N
         pendingTaskCheckBox.setSelected(true);
-        pendingTaskCheckBox.setText("this is  a pending todo item");
+        pendingTaskCheckBox.setText("Listed below are your pending tasks");
         pendingTaskCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pendingTaskCheckBoxActionPerformed(evt);
@@ -92,9 +104,16 @@ public class Home extends javax.swing.JFrame {
         });
 
         addTodoListItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/addIcon.png"))); // NOI18N
+        addTodoListItem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         addTodoListItem.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 addTodoListItemMouseClicked(evt);
+            }
+        });
+
+        jScrollPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jScrollPane1MousePressed(evt);
             }
         });
 
@@ -115,7 +134,11 @@ public class Home extends javax.swing.JFrame {
         tasksTable.setMinimumSize(new java.awt.Dimension(80, 100));
         tasksTable.setName("task table"); // NOI18N
         tasksTable.setRowHeight(80);
-        tasksTable.setRowMargin(0);
+        tasksTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tasksTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tasksTable);
 
         javax.swing.GroupLayout pendingItemsContainerLayout = new javax.swing.GroupLayout(pendingItemsContainer);
@@ -170,24 +193,151 @@ public class Home extends javax.swing.JFrame {
         );
 
         HomebackgroundImage.setBackground(new java.awt.Color(235, 94, 40));
+        HomebackgroundImage.setBorder(new javax.swing.border.MatteBorder(null));
+
+        homeNav.setBackground(new java.awt.Color(235, 94, 40));
+        homeNav.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        homeNav.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                homeNavMouseClicked(evt);
+            }
+        });
+
+        homeNavLink.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        homeNavLink.setForeground(new java.awt.Color(255, 255, 255));
+        homeNavLink.setText("HOME");
+        homeNavLink.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Home.png"))); // NOI18N
+
+        javax.swing.GroupLayout homeNavLayout = new javax.swing.GroupLayout(homeNav);
+        homeNav.setLayout(homeNavLayout);
+        homeNavLayout.setHorizontalGroup(
+            homeNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homeNavLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jLabel2)
+                .addGap(18, 18, 18)
+                .addComponent(homeNavLink, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(157, Short.MAX_VALUE))
+        );
+        homeNavLayout.setVerticalGroup(
+            homeNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, homeNavLayout.createSequentialGroup()
+                .addContainerGap(38, Short.MAX_VALUE)
+                .addGroup(homeNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(homeNavLink, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        addTaskNav.setBackground(new java.awt.Color(235, 94, 40));
+        addTaskNav.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                addTaskNavMouseClicked(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setText("ADD TASK");
+        jLabel3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/addWite.png"))); // NOI18N
+
+        javax.swing.GroupLayout addTaskNavLayout = new javax.swing.GroupLayout(addTaskNav);
+        addTaskNav.setLayout(addTaskNavLayout);
+        addTaskNavLayout.setHorizontalGroup(
+            addTaskNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addTaskNavLayout.createSequentialGroup()
+                .addContainerGap(27, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(addTaskNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(addTaskNavLayout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(89, 89, 89))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, addTaskNavLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addContainerGap())))
+        );
+        addTaskNavLayout.setVerticalGroup(
+            addTaskNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(addTaskNavLayout.createSequentialGroup()
+                .addGap(0, 0, 0)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(addTaskNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
+
+        logoutNav.setBackground(new java.awt.Color(235, 94, 40));
+        logoutNav.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        logoutNav.setPreferredSize(new java.awt.Dimension(147, 45));
+        logoutNav.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                logoutNavMouseClicked(evt);
+            }
+        });
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/Logout.png"))); // NOI18N
+
+        jLabel6.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setText("LOGOUT");
+
+        javax.swing.GroupLayout logoutNavLayout = new javax.swing.GroupLayout(logoutNav);
+        logoutNav.setLayout(logoutNavLayout);
+        logoutNavLayout.setHorizontalGroup(
+            logoutNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(logoutNavLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel6)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        logoutNavLayout.setVerticalGroup(
+            logoutNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(logoutNavLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(logoutNavLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout HomebackgroundImageLayout = new javax.swing.GroupLayout(HomebackgroundImage);
         HomebackgroundImage.setLayout(HomebackgroundImageLayout);
         HomebackgroundImageLayout.setHorizontalGroup(
             HomebackgroundImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 228, Short.MAX_VALUE)
+            .addComponent(homeNav, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(HomebackgroundImageLayout.createSequentialGroup()
+                .addComponent(addTaskNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(logoutNav, javax.swing.GroupLayout.DEFAULT_SIZE, 305, Short.MAX_VALUE)
         );
         HomebackgroundImageLayout.setVerticalGroup(
             HomebackgroundImageLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(HomebackgroundImageLayout.createSequentialGroup()
+                .addGap(129, 129, 129)
+                .addComponent(homeNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addTaskNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(logoutNav, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout mainContainerLayout = new javax.swing.GroupLayout(mainContainer);
         mainContainer.setLayout(mainContainerLayout);
         mainContainerLayout.setHorizontalGroup(
-            mainContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            mainContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
             .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(mainContainerLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, mainContainerLayout.createSequentialGroup()
                 .addComponent(HomebackgroundImage, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(tasksContainer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -203,7 +353,7 @@ public class Home extends javax.swing.JFrame {
         );
 
         getContentPane().add(mainContainer);
-        renderTodolists();
+        renderTodolists(); overides();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -220,6 +370,54 @@ public class Home extends javax.swing.JFrame {
     private void pendingTaskCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pendingTaskCheckBoxActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_pendingTaskCheckBoxActionPerformed
+
+    private void jScrollPane1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane1MousePressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScrollPane1MousePressed
+
+    private void tasksTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tasksTableMouseClicked
+        // TODO add your handling code here:
+        JTable source = (JTable) evt.getSource();
+        Utils allTasks = new Utils();
+
+        int row = source.rowAtPoint(evt.getPoint());
+        int column = source.columnAtPoint(evt.getPoint());
+        String s = source.getModel().getValueAt(row, column) + "";
+        if (s.equals("true") || s.equals("false")) {
+            int boolNumber = s.equals("false") ? 1 : 0;
+            String id = source.getModel().getValueAt(row, 3) + "";
+            allTasks.completeTodos(id, boolNumber);
+            renderTodolists();
+
+        } else if (s.equals("X")) {
+            String id = source.getModel().getValueAt(row, 3) + "";
+
+            allTasks.deleteTodos(id);
+            renderTodolists();
+
+        }
+
+
+    }//GEN-LAST:event_tasksTableMouseClicked
+
+    private void homeNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_homeNavMouseClicked
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_homeNavMouseClicked
+
+    private void addTaskNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addTaskNavMouseClicked
+        // TODO add your handling code here:
+        Utils allUtils = new Utils();
+        AddTask addTodoPage = new AddTask();
+        this.dispose();
+        addTodoPage.setVisible(true);
+    }//GEN-LAST:event_addTaskNavMouseClicked
+
+    private void logoutNavMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_logoutNavMouseClicked
+        // TODO add your handling code here:
+        this.dispose();
+        new Login().setVisible(true);
+    }//GEN-LAST:event_logoutNavMouseClicked
 
     /**
      * @param args the command line arguments
@@ -260,9 +458,19 @@ public class Home extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel HomebackgroundImage;
+    private javax.swing.JPanel addTaskNav;
     private javax.swing.JLabel addTodoListItem;
     private javax.swing.JPanel header;
+    private javax.swing.JPanel homeNav;
+    private javax.swing.JLabel homeNavLink;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel logoutNav;
     private javax.swing.JPanel mainContainer;
     private javax.swing.JPanel pendingItemsContainer;
     private javax.swing.JLabel pendingItemsLabel;
@@ -272,50 +480,86 @@ public class Home extends javax.swing.JFrame {
     private javax.swing.JLabel title;
     // End of variables declaration//GEN-END:variables
 
-//     static class BooleanTableModel extends AbstractTableModel {
-//        String[] columns = {"TASK", "DESCRIPTION", "DUE DATE", "COMPLETED"};
-//        Object[][] data = {
-//                {"S001", "ALICE", 90.00, Boolean.TRUE},
-//          
-//        };
+    //fetch the table status
+    public Boolean getStatus(int isComplete) {
+        if (isComplete == 0) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    ;
+    
+
+    public void overides() {
+
+        tasksTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                final Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                c.setBackground(row % 2 == 0 ? Color.LIGHT_GRAY : Color.WHITE);
+
+//                //style
+                Map attributes = (new Font("Ubuntu", Font.BOLD, 18)).getAttributes();
+                attributes.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
+//                int columnVal = 0;
+//                int rowVal = table.getSelectedRow();
+//                String values = table.getModel().getValueAt(row, column).toString();
+                if (value instanceof Boolean) {
+                    if (value.equals(true)) {
+                        c.setFont(new Font(attributes));
+
+                    }
+                }
+                return c;
+
+            }
+
+        });
+
+    }
+
+    ;
+
+    
+
     public void renderTodolists() {
         Utils allTasks = new Utils();
         //THE MODEL OF OUR TABLE
 
         DefaultTableModel model = (DefaultTableModel) tasksTable.getModel();
-        DefaultTableModel customModel = new DefaultTableModel() {
-            public Class<?> getColumnClass(int column) {
-                System.out.println("coum" + column);
-                return Boolean.class;
-            }
-        };
-        model.getColumnClass(0);
-        model.setColumnCount(0);
         model.setRowCount(0);
-        model.addColumn("Task");
-        model.addColumn("Description");
+        model.setColumnCount(0);
+        model.addColumn(
+                "Task");
+        model.addColumn(
+                "Description");
 
-        model.addColumn("Due Date");
-        model.addColumn("action");
+        model.addColumn(
+                "Due Date");
+        model.addColumn(
+                "ID");
 
-        Map attributes = (new Font("Ubuntu", Font.PLAIN, 12)).getAttributes();
-        //attributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD);
-        attributes.put(TextAttribute.STRIKETHROUGH, TextAttribute.STRIKETHROUGH_ON);
-//        tasksTable.setFont(new Font(attributes));
+        model.addColumn(
+                "Completed");
+        model.addColumn(
+                "Delete");
+
         ResultSet tasks = allTasks.fetchTodos();
 
         try {
             while (tasks.next()) {
+                model.addRow(
+                        new Object[]{tasks.getString("name"),
+                            tasks.getString("description"),
+                            tasks.getString("dueDate"),
+                            tasks.getString("idTask"),
+                            getStatus(Integer.parseInt(tasks.getString("isCompleted"))),
+                            "X"
 
-                System.out.println("tasks: " + tasks.getString("name"));
-                JCheckBox newCheckBox = new JCheckBox("new one");
-//
-//
-//                newCheckBox.setSelected(false);
-//                mainContainer.add(newCheckBox);
-                newCheckBox.setVisible(true);
-
-                model.addRow(new Object[]{tasks.getString("name"), tasks.getString("description"), tasks.getString("dueDate"), Boolean.FALSE});
+                        }
+                );
             }
         } catch (SQLException e) {
             System.out.println("error getting tasks: " + e.getMessage());
@@ -325,6 +569,5 @@ public class Home extends javax.swing.JFrame {
 
     public void renderTable() {
 
-//        model.addRow(new Object[]{"Start School", "3-01-2022", "this is urgent"});
     }
 }
