@@ -4,8 +4,10 @@
  */
 package todolistfinal;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
-import static todolistfinal.NewDbConnection.getConnection;
 
 /**
  *
@@ -21,7 +23,26 @@ public class Utils {
         try {
             Statement stmt = connection.con.createStatement();
             //Execute the statement
-            ResultSet result = stmt.executeQuery("SELECT * FROM Task ORDER BY isCompleted  ASC");
+            ResultSet result = stmt.executeQuery("SELECT * FROM Task ORDER BY isCompleted, dueDate  ASC");
+
+            return result;
+        } catch (SQLException e) {
+            System.out.println("error: " + e.getMessage());
+
+            return null;
+
+        }
+    }
+
+    //send query to db to fetch all existing users
+    public ResultSet fetchUsers() {
+        dbConnection connection = new dbConnection();
+        connection.getConnection();
+        //Create the statement object for executing queries
+        try {
+            Statement stmt = connection.con.createStatement();
+            //Execute the statement
+            ResultSet result = stmt.executeQuery("SELECT * FROM users");
 
             return result;
         } catch (SQLException e) {
@@ -64,9 +85,7 @@ public class Utils {
             Statement stmt = connection.con.createStatement();
             //Execute the statement
             String command = String.format("UPDATE Task SET `isCompleted` = '%s' WHERE `Task`.`idTask` = %s", isCompleted, idTask);
-            System.out.println("command" + command);
             int resi = stmt.executeUpdate(command);
-            System.out.println("resi" + resi);
 
             return resi;
         } catch (SQLException e) {
@@ -76,9 +95,6 @@ public class Utils {
 
         }
     }
-
-
-
 
     //send query to delete todos
     public int deleteTodos(String idTask) {
@@ -90,10 +106,9 @@ public class Utils {
             //Execute the statement
             String command = String.format("DELETE FROM Task WHERE `Task`.`idTask` = %s", idTask);
             System.out.println("command" + command);
-            int resi = stmt.executeUpdate(command);
-            System.out.println("resi" + resi);
+            int result = stmt.executeUpdate(command);
 
-            return resi;
+            return result;
         } catch (SQLException e) {
             System.out.println("error: " + e.getMessage());
 
@@ -102,4 +117,50 @@ public class Utils {
         }
     }
 
+    public ResultSet createUser(String username, String password, String role) {
+       
+
+        dbConnection connection = new dbConnection();
+        connection.getConnection();
+        //Create the statement object for executing queries
+        try {
+            Statement stmt = connection.con.createStatement();
+            //Execute the statement
+            String command = String.format("INSERT INTO `users` (`username`, `password`, `role`) VALUES ('%s', '%s', '%s')", username, password, role);
+
+            System.out.println(command);
+
+            int res = stmt.executeUpdate(command);
+            ResultSet result = fetchUsers();
+
+            return result;
+        } catch (SQLException e) {
+            System.out.println("error: " + e.getMessage());
+
+            return null;
+
+        }
+    }
+
+    public String encryptPass(String password) {
+        try {
+            //retrieve instance of the encryptor of SHA-256
+            MessageDigest digestor = MessageDigest.getInstance("SHA-256");
+            //retrieve bytes to encrypt
+            byte[] encodedhash = digestor.digest(password.getBytes(StandardCharsets.UTF_8));
+            StringBuilder encryptionValue = new StringBuilder(2 * encodedhash.length);
+            //perform encryption
+            for (int i = 0; i < encodedhash.length; i++) {
+                String hexVal = Integer.toHexString(0xff & encodedhash[i]);
+                if (hexVal.length() == 1) {
+                    encryptionValue.append('0');
+                }
+                encryptionValue.append(hexVal);
+            }
+            //return encrypted value
+            return encryptionValue.toString();
+        } catch (NoSuchAlgorithmException ex) {
+            return ex.getMessage();
+        }
+    }
 }
